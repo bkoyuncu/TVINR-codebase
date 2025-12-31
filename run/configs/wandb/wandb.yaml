@@ -1,0 +1,12 @@
+wandb:
+  entity: #FILL
+  project_name: #FILL
+  create_cfgdir: True
+  mode: online
+  log_dir: 'wandb_logs'
+  logger: wandb
+  project: x
+  enable: True
+  dir: ${root_folder}
+  resume: null
+  gpoup: None

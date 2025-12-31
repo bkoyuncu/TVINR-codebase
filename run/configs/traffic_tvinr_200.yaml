@@ -1,0 +1,139 @@
+out_dir: results_traffic
+gpu: 1
+seed: 0
+note: run experiments
+device: cpu
+num_threads: 1
+num_workers: 0
+pin_memory: false
+print: both
+dataset:
+  format: torch
+  name: traffic
+  dir: ../datasets/
+  spatial_norm: all
+  temporal_norm: window
+  task: imputation
+  use_subset: 1.0
+  size: 64
+  use_bn_initial: False
+  missing_perc: 0.0
+  missing_perc_min: 0.0
+  missing_type: list
+  threshold: 0.0
+  use_train_as_valid: false
+  use_number_batch: 0
+  val_perc: 0.1
+  num_train_dates: 30
+  num_validation_dates: 20
+  num_test_dates: 20
+  draw_ratio: 1.0
+  version: -1
+  sparsity: DT
+train:
+  mode: standard
+  resume_training: false
+  batch_size: 8
+  eval_period: 500
+  ckpt_clean: false
+  clip: 200.0
+  accumulation_steps: None
+model:
+  type: tv_inr
+  conditional: False
+  use_same_label: False
+  loss_fun: elbo
+  elbo_mode: observed
+  elbo_ll_scale: true
+  dim_z: 32
+  beta_z: 1.0
+  start_scheduler: -1
+  end_scheduler: -1
+  beta_missing_perc_scheduler: 'Exp'
+  direction_scheduler: 'min_to_max'
+  distr_x: laplace_free0.01
+  name_encoding: fourier_temporal
+  encoder_type: transformer
+  use_k_mixture: false
+  two_step_training: false
+  scenerio: []
+  scenerio_end: []
+  scenerio_start: []
+  learn_residual_posterior: false
+  post_cat_has_z: true
+  simple_cat: false
+  cat_encoder_x: false
+  temporal_grid_norm: 0to1
+  tmh: 0
+  tmp: 200
+  tmt: 200
+  tm_interest: 200
+params_transformer:
+  coordinate_dim: 0
+  feature_dim: 0  
+  d_model: 128
+  attention_layers: 1
+  add_sigmoid: false 
+  n_heads: 2 
+  causal: False
+  linear_layer_sizes: []
+params_cat_x:
+  act: lrelu_01
+  dropout: 0.0
+  layers: [16,2]
+  batchnorm: False
+  output_dropout: 0.0
+  l2norm: False
+params_cat_prior:
+  act: lrelu_01
+  dropout: 0.0
+  layers: [32, 32]
+  batchnorm: False
+  output_dropout: 0.0
+  l2norm: False
+params_cat_post:
+  act: lrelu_01
+  dropout: 0.0
+  layers: [32, 32]
+  batchnorm: False
+  output_dropout: 0.0
+  l2norm: False
+params_encoding:
+  num_frequencies: 128
+  std: 2.0
+  learn_feats: false
+  log_scale: false
+  base_freq: 2.0
+  use_pi: false
+  min_freq_log2: 0.0
+  max_freq_log2: 10.0
+params_hyper:
+  dim_inner: 128
+  num_layers: 2
+  act: lrelu_01
+  dropout: 0.2
+  coords_dim: 0
+params_fnrep:
+  dim_inner: 24
+  num_layers: 2
+  act: lrelu_01
+  dropout: 0.001
+  shared_layer_indx: []
+  mode: "wb"
+optim:
+  optimizer: adamw
+  base_lr: 0.001
+  max_epoch: 10000
+  scheduler: cos
+  gamma: 0.99
+  use_scheduler: false
+  weight_decay: 0.0
+  early_stop: 50000
+plotting:
+  res_epoch: 10
+  super_res_epoch: 50000
+  use_neighbors: false
+inference:
+  wandb_ckpt_name: null
+  wandb_run_id: null
+  mode: standard
